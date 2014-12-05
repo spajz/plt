@@ -1,0 +1,26 @@
+{
+  "name": "laravel",
+  "version": "0.0.0",
+  "description": "[![Latest Stable Version](https://poser.pugx.org/laravel/framework/version.png)](https://packagist.org/packages/laravel/framework) [![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.png)](https://packagist.org/packages/laravel/framework) [![Build Status](https://travis-ci.org/laravel/framework.png)](https://travis-ci.org/laravel/framework)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/laravel/laravel.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/laravel/laravel/issues"
+  },
+  "homepage": "https://github.com/laravel/laravel",
+  "devDependencies": {
+    "gulp": "^3.6.0",
+    "gulp-concat": "^2.2.0",
+    "gulp-uglify": "^0.2.1",
+    "gulp-jshint": "^1.5.3",
+    "gulp-changed": "^0.3.0"
+  }
+}

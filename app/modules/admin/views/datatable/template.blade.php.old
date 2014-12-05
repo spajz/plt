@@ -1,0 +1,40 @@
+<table class="table table-bordered {{ $class }}">
+    <colgroup>
+        @for ($i = 0; $i < count($columns); $i++)
+        <col class="con{{ $i }}" />
+        @endfor
+    </colgroup>
+    <thead>
+    <tr class="filterRow">
+        @foreach($columns as $i => $c)
+        <th align="center" valign="middle" id="filter{{ $i }}"></th>
+        @endforeach
+    </tr>
+    <tr>
+        @foreach($columns as $i => $c)
+        <th align="center" valign="middle" class="head{{ $i }}">{{ $c }}</th>
+        @endforeach
+    </tr>
+
+    </thead>
+    <tfoot>
+       <tr class="footFilterRow">
+           @foreach($columns as $i => $c)
+           <th align="center" valign="middle" class="foot{{ $i }}"></th>
+           @endforeach
+       </tr>
+       </tfoot>
+    <tbody>
+    @foreach($data as $d)
+    <tr>
+        @foreach($d as $dd)
+        <td>{{ $dd }}</td>
+        @endforeach
+    </tr>
+    @endforeach
+    </tbody>
+</table>
+
+@if (!$noScript)
+    @include('datatable::javascript', array('class' => $class, 'options' => $options, 'callbacks' =>  $callbacks))
+@endif

@@ -1,0 +1,1 @@
+<iframe <?php echo $attributes; ?> frameborder="0" src="http://www.dailymotion.com/embed/video/<?php echo $vid; ?>" allowfullscreen></iframe>

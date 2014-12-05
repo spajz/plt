@@ -1,0 +1,72 @@
+/**
+ * npm install gulp-concat gulp-uglify gulp-rename gulp-minify-css --save-dev
+ */
+// Get modules
+var gulp 		= require('gulp');
+var changed     = require('gulp-changed');
+
+var less 		= require('gulp-less');
+var uglify 		= require('gulp-uglify');
+var minify 		= require('gulp-minify-css');
+var rename 		= require("gulp-rename");
+var imagemin    = require('gulp-imagemin');
+var prefix      = require('gulp-autoprefixer');
+var concat      = require('gulp-concat');
+
+var assetFrontendFolder = 'app/modules/admin/assets/';
+var assetAdminFolder = 'app/modules/frontend/assets/';
+
+var outputFrontendFolder = 'public/packages/module/frontend/assets/';
+var outputAdminFolder = 'public/packages/module/admin/assets/';
+
+// Task sass
+gulp.task('styles', function () {
+    gulp.src(assetFolder + '*/less/styles.less')
+        .pipe(less())
+        .pipe(minify())
+        .pipe(rename(function(path){
+            path.dirname = path.dirname.replace('/less', '/css');
+            path.extname = '.min.css';
+        }))
+        .pipe(prefix())
+        .pipe(gulp.dest(outputFolder));
+});
+
+// Task scripts
+gulp.task('scripts', function() {
+ 	gulp.src(assetFolder + '*/js/*.js')
+    	.pipe(uglify())
+    	.pipe(rename(function(path){
+            var suffix = '.min';
+            if(path.basename.indexOf(suffix, path.basename.length - suffix.length) === -1)
+                path.extname = '.min' + path.extname;
+        }))
+    	.pipe(gulp.dest(outputFolder));
+});
+
+// Task images
+gulp.task('images', function () {
+    gulp.src(assetFolder + '*/images/*.{png,gif,jpg}')
+        .pipe(imagemin())
+        .pipe(gulp.dest(outputFolder));
+});
+
+// Task watch
+gulp.task('watch', function () {
+
+  	gulp.watch(assetFolder + '*/css/**', ['styles']);
+  	gulp.watch(assetFolder + '*/less/**', ['styles']);
+  	gulp.watch(assetFolder + '*/js/**', ['scripts']);
+  	gulp.watch(assetFolder + '*/images/**', ['images']);
+
+});
+
+// The default task (called when you run `gulp` from cli)
+gulp.task('default', ['styles', 'scripts', 'images', 'watch']);
+
+
+
+
+
+
+

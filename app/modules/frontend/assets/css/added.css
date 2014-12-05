@@ -1,0 +1,126 @@
+.sidey .nav a {
+    position: relative;
+}
+
+.sidey .nav a .caret {
+    float: none;
+    width: 0;
+    height: 0;
+    display: inline-block;
+    vertical-align: top;
+    border-top: 6px solid #555;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+    content: "";
+    margin-top: 0;
+    margin-left: 0;
+    top: 20px;
+    right: 5px;
+    position: absolute;
+}
+
+.sidey .nav a .caret:hover {
+    border-top: 6px solid #fff;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+}
+
+.sidey .nav li.open > a > .caret {
+    border-top: none;
+    border-bottom: 6px solid #555 !important;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+}
+
+.sidey .nav li.open > a > .caret:hover {
+    border-top: none;
+    border-bottom: 6px solid #fff !important;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+}
+
+.sidey .nav > li > ul > li a {
+    padding: 10px 15px 10px 25px;
+    font-weight: bold;
+    background-color: #eee;
+}
+
+.sidey .nav > li > ul ul > li a {
+    padding: 10px 15px 10px 35px;
+    font-weight: normal;
+    background-color: #fff;
+}
+
+.bx-wrapper img {
+    max-height: 250px;
+}
+
+ul.fancytree-container {
+    border: none;
+    font-family: inherit;
+    background: #fff;
+    border: 1px solid #f2f2f2;
+    border-right: 2px solid #eee;
+    border-bottom: 2px solid #eee;
+    border-radius: 7px;
+    padding: 1px;
+}
+
+ul.fancytree-container li {
+    padding: 0;
+}
+
+span.fancytree-node:hover {
+    background-color: #16cbe6;;
+    border-color: #333;
+    color: #fff;
+}
+
+.fancytree-container.fancytree-treefocus span.fancytree-node.fancytree-active, .fancytree-container.fancytree-treefocus span.fancytree-node.fancytree-selected, span.fancytree-node.fancytree-active:hover, span.fancytree-node.fancytree-selected:hover {
+    background-color: #16cbe6;;
+    border-color: #0fa6bc;
+    color: #fff;
+}
+
+span.fancytree-title {
+    display: inline-block;
+    padding-left: 0;
+    padding-right: 0;
+    color: inherit;
+    margin-left: 3px;
+    cursor: pointer;
+}
+
+span.fancytree-node {
+    border: 0px solid transparent;
+}
+
+.bx-wrapper .bx-viewport {
+    -moz-box-shadow: none;
+    -webkit-box-shadow: snow;
+    box-shadow: none;
+    border: none;
+    background: #fff;
+    border: 1px solid #f2f2f2;
+    border-right: 2px solid #eee;
+    border-bottom: 2px solid #eee;
+    border-radius: 7px;
+}
+
+.breadcrumb-wrap {
+    list-style: none;
+    background-color: #f5f5f5;
+    border-bottom: 2px solid #ccc;
+}
+
+.breadcrumb {
+    padding: 0;
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+.bx-wrapper .bx-controls-direction a {
+    z-index: 99;
+}
+
+

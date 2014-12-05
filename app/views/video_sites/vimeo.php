@@ -1,0 +1,1 @@
+<iframe <?php echo $attributes; ?> src="//player.vimeo.com/video/<?php echo $vid; ?>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>

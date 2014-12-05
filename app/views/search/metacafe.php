@@ -1,0 +1,1 @@
+<iframe <?php echo $attributes; ?> src="http://www.metacafe.com/embed/<?php echo $id; ?>/" allowFullScreen frameborder=0></iframe>
