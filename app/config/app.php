@@ -121,6 +121,7 @@ return array(
         'Intervention\Image\ImageServiceProvider',
 
         'PaymentGateway\PaymentServiceProvider',
+        'SimonStamm\LaravelPjax\LaravelPjaxServiceProvider',
 
 
 

@@ -25,4 +25,15 @@ class Attribute extends Base
         return $this->hasMany('App\Modules\Product\Models\AttributeValue', 'attribute_id', 'id');
     }
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleted(function ($model) {
+            foreach ($model->attrValues as $attrValue) {
+                $attrValue->delete();
+            }
+        });
+    }
+
 }

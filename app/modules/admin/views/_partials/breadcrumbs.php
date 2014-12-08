@@ -3,7 +3,7 @@
         try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
     </script>
 
-    <?php echo Breadcrumbs::render($current_breadcrumb);  ?>
+    <?php //echo Breadcrumbs::render($current_breadcrumb);  ?>
 
     <div class="nav-search" id="nav-search">
         <form class="form-search">

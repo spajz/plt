@@ -1,10 +1,10 @@
 <script type="text/javascript">
     var tree = $("#tree");
 
-    $(function () {
+    function initTree(){
         // Attach the fancytree widget to an existing <div id="tree"> element
         // and pass the tree options as an argument to the fancytree() function:
-        tree.fancytree({
+        $("#tree").fancytree({
             extensions: ["dnd", "persist"],
             persist: {
                 expandLazy: true,
@@ -48,7 +48,7 @@
                      */
                     data.otherNode.moveTo(node, data.hitMode);
 
-                    var dict = tree.fancytree('getTree').toDict();
+                    var dict = $("#tree").fancytree('getTree').toDict();
                     sendTreeData(dict);
                 }
             },
@@ -66,19 +66,28 @@
         });
 
 
-        $('.btnCollapseAll').click(function () {
-            tree.fancytree("getRootNode").visit(function (node) {
-                node.setExpanded(false);
-            });
-            return false;
-        });
-        $('.btnExpandAll').click(function () {
-            tree.fancytree("getRootNode").visit(function (node) {
-                node.setExpanded(true);
-            });
-            return false;
-        });
 
+    }
+
+    $('.btnCollapseAll').click(function () {
+        $("#tree").fancytree("getRootNode").visit(function (node) {
+            node.setExpanded(false);
+        });
+        return false;
+    });
+    $('.btnExpandAll').click(function () {
+        $("#tree").fancytree("getRootNode").visit(function (node) {
+            node.setExpanded(true);
+        });
+        return false;
+    });
+    $('.btnRefreshTree').click(function (e) {
+        e.preventDefault();
+        initTree();
+    });
+
+    $(function () {
+       initTree();
     });
 
     function sendTreeData(treeData) {
@@ -88,7 +97,7 @@
             url: "{{URL::route('admin.category.api.updateTree')}}",
             data: { data: treeData },
             success: function (data) {
-                tree.fancytree('getTree').reload();
+                $("#tree").fancytree('getTree').reload();
                 if ($('.dt-table').length) {
                     $('.dt-table').dataTable().fnDraw(false);
                 }

@@ -123,7 +123,7 @@ class Category extends Base
 
     public function attr()
     {
-        return $this->hasMany('App\Modules\Product\Models\Attribute', 'group_id', 'group_id');
+        return $this->hasMany('App\Modules\Product\Models\Attribute', 'group_id', 'group_id')->orderBy('sort');
     }
 
 }

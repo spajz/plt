@@ -3,6 +3,7 @@ $attributes_label = array('class' => 'col-sm-1 control-label no-padding-right');
 $attributes_field = array('class' => 'col-xs-10 col-sm-5');
 ?>
 @section('footer_scripts')
+@parent
 @include('product::admin.category._partials.tree')
 <script type="text/javascript">
     CKEDITOR.disableAutoInline = true;
@@ -29,11 +30,13 @@ $attributes_field = array('class' => 'col-xs-10 col-sm-5');
 <div class="col-xs-2">
     <a href="#" class="btnCollapseAll" title="Collapse all"><i class="icon-folder-close-alt"></i></a>&nbsp;
     <a href="#" class="btnExpandAll" title="Expand all"><i class="icon-folder-open-alt"></i></a>
+    <a href="#" class="btnRefreshTree" title="Refresh tree"><i class="icon-refresh"></i></a>
 
     <div id="tree"></div>
 
     <a href="#" class="btnCollapseAll" title="Collapse all"><i class="icon-folder-close-alt"></i></a>&nbsp;
     <a href="#" class="btnExpandAll" title="Expand all"><i class="icon-folder-open-alt"></i></a>
+    <a href="#" class="btnRefreshTree" title="Refresh tree"><i class="icon-refresh"></i></a>
 </div>
 
 <div class="col-xs-10">
@@ -42,8 +45,10 @@ $attributes_field = array('class' => 'col-xs-10 col-sm-5');
 
 <!-- PAGE CONTENT BEGINS -->
 
+<div id="pjax-container">
 <?php //echo HTML::ul($errors->all()); ?>
-<?php echo Form::model($category, array('route' => array($base . 'update', $category->group_id), 'method' => 'put', 'class' => 'form-horizontal', 'role' => 'form')); ?>
+<?php echo Form::model($category, array('route' => array($base . 'update', $category->group_id), 'method' => 'put',
+    'class' => 'form-horizontal', 'role' => 'form', 'data-pjax' => 1)); ?>
 
 <div class="widget-box">
     <div class="widget-header">
@@ -153,29 +158,20 @@ $attributes_field = array('class' => 'col-xs-10 col-sm-5');
     <div class="widget-body">
         <div class="widget-main">
 
-        <table class="table table-bordered">
-            <tr>
-                <th>ID</th>
-                <th>Attribute</th>
-                <th>Filter</th>
-                <th>Action</th>
-            </tr>
-            @if(count($category->attr))
-                @foreach($category->attr as $attr)
-                    <tr>
-                        <td>{{ $attr->id }}</td>
-                        <td><?php echo Form::text("attributes[{$attr->id}]", $attr->title); ?></td>
-                        <td>
-                        @if($attr->filter == 1)
-                            Yes
-                        @else
-                            No
-                        @endif
-                        </td>
-                        <td>@include('product::admin.category._partials.attribute_buttons')</td>
-                    </tr>
-                @endforeach
-            @endif
+        <table class="table table-striped table-bordered table-hover table-sortable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Attribute</th>
+                    <th>Filter</th>
+                    <th>Status</th>
+                    <th>Sort</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody <?php echo create_dynamic_attributes('dynamic', $category, $category->group_id, 'product::admin.category._partials.attributes'); ?>>
+
+            </tbody>
         </table>
 
          <div class="form-group">
@@ -277,6 +273,7 @@ $attributes_field = array('class' => 'col-xs-10 col-sm-5');
 </div>
 
 <?php echo Form::close(); ?>
+</div>
 
 <!-- PAGE CONTENT ENDS -->
 </div>
@@ -284,3 +281,32 @@ $attributes_field = array('class' => 'col-xs-10 col-sm-5');
 </div>
 <!-- /.row -->
 </div><!-- /.page-content -->
+
+@section('footer_scripts')
+@parent
+<script type="text/javascript">
+
+$(document).ready(function () {
+
+    $.pjax.defaults.scrollTo = false;
+
+    $(document).on('pjax:send', function () {
+        ajaxLoaderShow();
+        //$("#tree").fancytree("destroy");
+    });
+
+    $(document).on('pjax:complete', function () {
+        ajaxLoaderHide();
+        //initTree();
+        if (('.dynamic').length) {
+            processDynamic();
+        }
+    });
+
+    $(document).on('submit', 'form[data-pjax]', function(event) {
+        $.pjax.submit(event, {container: '#pjax-container', timeout: 5000});
+    })
+
+});
+</script>
+@stop

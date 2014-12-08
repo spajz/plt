@@ -190,12 +190,25 @@ class CategoryController extends AdminController
         if ($item->save()) {
             Msg::info('Item successfully updated.');
 
+            // Inser new attribute
             if (Input::get('attribute')) {
                 $attr = new Attribute;
                 $attr->title = Input::get('attribute');
                 $attr->status = 1;
                 $attr->filter = Input::get('filter');
                 $item->attr()->save($attr);
+            }
+
+            // Update attributes
+            if (Input::get('attributes')) {
+                foreach (Input::get('attributes') as $key => $attribute) {
+                    $updateAttr = Attribute::find($key);
+                    if ($updateAttr) {
+                        $updateAttr->title = $attribute;
+                        $updateAttr->filter = Input::get('filters.' . $key);
+                        $updateAttr->save();
+                    }
+                }
             }
 
             if (Input::get('save') == 'edit') return Redirect::route($this->base . Input::get('save'), $id);

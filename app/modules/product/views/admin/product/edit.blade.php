@@ -189,8 +189,7 @@ $attributes_field = array('class' => 'col-xs-10 col-sm-5');
 
 
 </script>
-*/
-?>
+*/?>
 @stop
 
 <div class="page-content">

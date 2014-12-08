@@ -71,14 +71,89 @@ var laravel = {
     }
 };
 
+function ajaxLoaderShow() {
+    $('#ajax-loader').delay(100).show('fast');
+}
+
+function ajaxLoaderHide() {
+    $('#ajax-loader').delay(100).hide('fast');
+}
+
+function documentScroll() {
+    // Scroll to postion from cookie
+    $(document).scrollTop($.cookie('scrollTop') ? $.cookie('scrollTop') : 0);
+}
+
+// Sortable
+function tableSortable() {
+    $('.table-sortable tbody').sortable({
+        handle: '.sortable-handle',
+        placeholder: 'ui-sortable-placeholder',
+        start: function (e, ui) {
+            ui.placeholder.height(ui.helper.outerHeight());
+        },
+        helper: function (e, tr) {
+            var $originals = tr.children();
+            var $helper = tr.clone();
+            $helper.children().each(function (index) {
+                // Set helper cell sizes to match the original sizes
+                $(this).width($originals.eq(index).width());
+            });
+            return $helper;
+        },
+        update: function (event, ui) {
+            var element = ui.item;
+            var sortData = $(this).sortable('serialize', {
+                attribute: 'data-id'
+            });
+            var model = $(this).attr('data-model');
+            model = 'model=' + model + '&';
+            $.ajax({
+                type: 'post',
+                url: baseUrl + '/admin/api/sort-model',
+                data: model + sortData,
+                success: function (data) {
+                    var tdElem = element.find('td');
+                    var color = tdElem.css('background-color');
+                    tdElem.css('background-color', '#87b87f').animate({
+                        backgroundColor: color
+                    }, 800, function () {
+                        tdElem.removeAttr('style');
+                    });
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                },
+                beforeSend: function () {
+                }
+            });
+        }
+    });
+};
+
+var allowScroll = true;
+
+function processDynamic() {
+    $('.dynamic').each(function () {
+        var thisObj = $(this);
+        var model = thisObj.attr('data-main-model');
+        var id = thisObj.attr('data-id');
+        var view = thisObj.attr('data-view');
+        $.ajax({
+            type: 'get',
+            url: baseUrl + '/admin/api/get-model-by-id/' + model + '/' + id + '/' + view,
+            success: function (data) {
+                thisObj.replaceWith(data);
+                tableSortable();
+                if (allowScroll) {
+                    documentScroll();
+                }
+            }
+        });
+    });
+};
+
 $(document).ready(function () {
-
-    var allowScroll = true;
-
-    function documentScroll() {
-        // Scroll to postion from cookie
-        $(document).scrollTop($.cookie('scrollTop') ? $.cookie('scrollTop') : 0);
-    }
 
     documentScroll();
 
@@ -130,14 +205,6 @@ $(document).ready(function () {
             ajaxLoaderHide();
         }
     });
-
-    function ajaxLoaderShow() {
-        $('#ajax-loader').delay(100).show('fast');
-    }
-
-    function ajaxLoaderHide() {
-        $('#ajax-loader').delay(100).hide('fast');
-    }
 
     // Submit form on change
     $('body').on('change', '.submit-form-change', function () {
@@ -207,53 +274,6 @@ $(document).ready(function () {
             removeElem.remove();
         }
     });
-
-    // Sortable
-    function tableSortable() {
-        $('.table-sortable tbody').sortable({
-            handle: '.sortable-handle',
-            placeholder: 'ui-sortable-placeholder',
-            start: function (e, ui) {
-                ui.placeholder.height(ui.helper.outerHeight());
-            },
-            helper: function (e, tr) {
-                var $originals = tr.children();
-                var $helper = tr.clone();
-                $helper.children().each(function (index) {
-                    // Set helper cell sizes to match the original sizes
-                    $(this).width($originals.eq(index).width());
-                });
-                return $helper;
-            },
-            update: function (event, ui) {
-                var element = ui.item;
-                var sortData = $(this).sortable('serialize', {
-                    attribute: 'data-id'
-                });
-                var model = $(this).attr('data-model');
-                model = 'model=' + model + '&';
-                $.ajax({
-                    type: 'post',
-                    url: baseUrl + '/admin/api/sort-model',
-                    data: model + sortData,
-                    success: function (data) {
-                        var tdElem = element.find('td');
-                        var color = tdElem.css('background-color');
-                        tdElem.css('background-color', '#87b87f').animate({
-                            backgroundColor: color
-                        }, 800, function () {
-                            tdElem.removeAttr('style');
-                        });
-                    },
-                    error: function (xhr, status, error) {
-                        alert(xhr.responseText);
-                    },
-                    beforeSend: function () {
-                    }
-                });
-            }
-        });
-    };
 
     if (('.table-sortable').length) {
         tableSortable();
@@ -379,26 +399,6 @@ $(document).ready(function () {
             }
         });
     });
-
-    function processDynamic() {
-        $('.dynamic').each(function () {
-            var thisObj = $(this);
-            var model = thisObj.attr('data-main-model');
-            var id = thisObj.attr('data-id');
-            var view = thisObj.attr('data-view');
-            $.ajax({
-                type: 'get',
-                url: baseUrl + '/admin/api/get-model-by-id/' + model + '/' + id + '/' + view,
-                success: function (data) {
-                    thisObj.replaceWith(data);
-                    tableSortable();
-                    if (allowScroll) {
-                        documentScroll();
-                    }
-                }
-            });
-        });
-    }
 
     if (('.dynamic').length) {
         processDynamic();
