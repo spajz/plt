@@ -128,7 +128,68 @@ $attributes_field = array('class' => 'col-xs-10 col-sm-5');
     }
 
 </script>
+<?php /*
+<script type="text/javascript">
 
+    $(window).load(function () {
+        $('.dz-default').prependTo('.dropzone-previews');
+    })
+
+    Dropzone.options.mainForm = { // The camelized version of the ID of the form element
+
+        // The configuration we've talked about above
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 10,
+        maxFiles: 10,
+        acceptedFiles: 'image/*',
+        previewsContainer: '.dropzone-previews',
+        maxFilesize: 1,
+        method: 'post',
+        addRemoveLinks: true,
+        url: '{{URL::route($base . 'update', $product->proizvod_id)}}',
+
+        // The setting up of the dropzone
+        init: function () {
+            var myDropzone = this;
+
+            // First change the button to actually tell Dropzone to process the queue.
+            this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
+                // Make sure that the form isn't actually being sent.
+                e.preventDefault();
+                e.stopPropagation();
+
+                if (myDropzone.getQueuedFiles().length > 0) {
+                    myDropzone.processQueue();
+                }
+                else {
+                    // Upload anyway without files
+                    myDropzone.uploadFiles([ ]);
+                }
+            });
+
+
+            // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
+            // of the sending event because uploadMultiple is set to true.
+            this.on("sendingmultiple", function () {
+                // Gets triggered when the form is actually being sent.
+                // Hide the success button or the complete form.
+            });
+            this.on("successmultiple", function (files, response) {
+                // Gets triggered when the files have successfully been sent.
+                // Redirect user or notify of success.
+            });
+            this.on("errormultiple", function (files, response) {
+                // Gets triggered when there was an error sending the files.
+                // Maybe show form again, and notify user of error
+            });
+        }
+
+    }
+
+
+</script>
+*/?>
 @stop
 
 <div class="page-content">
@@ -249,6 +310,58 @@ $attributes_field = array('class' => 'col-xs-10 col-sm-5');
 
                 <div class="col-sm-11">
                     <?php echo Form::textarea('description', null, array('class' => $attributes_field['class'] . ' ckeditor')); ?>
+                </div>
+            </div>
+            <div class="space-4"></div>
+
+        </div>
+    </div>
+    <!-- eof widget-body -->
+</div>
+<!-- eof widget-box -->
+
+<div class="space-8"></div>
+
+<small class="anchor-show"></small>
+<div class="widget-box">
+    <div class="widget-header">
+        <h4 class="anchor-this" id="seo-information">Seo Information</h4>
+
+        <div class="widget-toolbar">
+            <a href="#" data-action="collapse">
+                <i class="icon-chevron-up"></i>
+            </a>
+
+            <a href="#" data-action="close">
+                <i class="icon-remove"></i>
+            </a>
+        </div>
+    </div>
+    <!-- eof widget-header -->
+
+    <div class="widget-body">
+        <div class="widget-main">
+
+            <div class="form-group">
+                <?php echo Form::label('seo_title', 'Seo Title', $attributes_label); ?>
+                <div class="col-sm-11">
+                    <?php echo Form::text('seo_title', null, $attributes_field); ?>
+                </div>
+            </div>
+            <div class="space-4"></div>
+
+            <div class="form-group">
+                <?php echo Form::label('seo_keywords', 'Seo Keywords', $attributes_label); ?>
+                <div class="col-sm-11">
+                    <?php echo Form::text('seo_keywords', null, $attributes_field); ?>
+                </div>
+            </div>
+            <div class="space-4"></div>
+
+            <div class="form-group">
+                <?php echo Form::label('seo_description', 'Seo Description', $attributes_label); ?>
+                <div class="col-sm-11">
+                    <?php echo Form::text('seo_description', null, $attributes_field); ?>
                 </div>
             </div>
             <div class="space-4"></div>
@@ -398,58 +511,6 @@ $attributes_field = array('class' => 'col-xs-10 col-sm-5');
                 </tbody>
 
             </table>
-
-        </div>
-    </div>
-    <!-- eof widget-body -->
-</div>
-<!-- eof widget-box -->
-
-<div class="space-8"></div>
-
-<small class="anchor-show"></small>
-<div class="widget-box">
-    <div class="widget-header">
-        <h4 class="anchor-this" id="seo-information">Seo Information</h4>
-
-        <div class="widget-toolbar">
-            <a href="#" data-action="collapse">
-                <i class="icon-chevron-up"></i>
-            </a>
-
-            <a href="#" data-action="close">
-                <i class="icon-remove"></i>
-            </a>
-        </div>
-    </div>
-    <!-- eof widget-header -->
-
-    <div class="widget-body">
-        <div class="widget-main">
-
-            <div class="form-group">
-                <?php echo Form::label('seo_title', 'Seo Title', $attributes_label); ?>
-                <div class="col-sm-11">
-                    <?php echo Form::text('seo_title', null, $attributes_field); ?>
-                </div>
-            </div>
-            <div class="space-4"></div>
-
-            <div class="form-group">
-                <?php echo Form::label('seo_keywords', 'Seo Keywords', $attributes_label); ?>
-                <div class="col-sm-11">
-                    <?php echo Form::text('seo_keywords', null, $attributes_field); ?>
-                </div>
-            </div>
-            <div class="space-4"></div>
-
-            <div class="form-group">
-                <?php echo Form::label('seo_description', 'Seo Description', $attributes_label); ?>
-                <div class="col-sm-11">
-                    <?php echo Form::text('seo_description', null, $attributes_field); ?>
-                </div>
-            </div>
-            <div class="space-4"></div>
 
         </div>
     </div>

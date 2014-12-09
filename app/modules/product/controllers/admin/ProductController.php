@@ -292,7 +292,6 @@ class ProductController extends AdminController
      */
     public function edit($id = '6')
     {
-
         $base = $this->base;
         View::share('itemId', $id);
 

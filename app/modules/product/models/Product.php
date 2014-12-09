@@ -10,22 +10,22 @@ class Product extends Base
     public $timestamps = true;
     protected $guarded = array('proizvod_id');
     protected $fillable = array(
-            'proizvod',
-            'group_id',
-            'show_item',
-            'old_item',
-            'cena_prodajna',
-            'cena_dilerska',
-            'stanje',
-            'datum',
-            'pdv',
-            'proizvodjac_id',
-            'fix_show_item',
-            'fix_cena',
-            'fix_cena_din',
-            'preporucena_cena',
-            'description',
-            'intro',
+        'proizvod',
+        'group_id',
+        'show_item',
+        'old_item',
+        'cena_prodajna',
+        'cena_dilerska',
+        'stanje',
+        'datum',
+        'pdv',
+        'proizvodjac_id',
+        'fix_show_item',
+        'fix_cena',
+        'fix_cena_din',
+        'preporucena_cena',
+        'description',
+        'intro',
     );
     protected $statusColumn = 'show_item';
     protected $modulConfig = 'product::product';
@@ -66,21 +66,21 @@ class Product extends Base
     public function images()
     {
         return $this->morphMany('App\Modules\Admin\Models\Image', 'model')
-                ->orderBy('sort', 'asc')
-                ->orderBy('id', 'desc');
+            ->orderBy('sort', 'asc')
+            ->orderBy('id', 'desc');
     }
 
     public function videos()
     {
         return $this->morphMany('App\Modules\Admin\Models\Video', 'model')
-                ->orderBy('sort', 'asc')
-                ->orderBy('id', 'desc');
+            ->orderBy('sort', 'asc')
+            ->orderBy('id', 'desc');
     }
 
     public function comments()
     {
         return $this->morphMany('App\Modules\Comment\Models\Comment', 'model')
-                ->orderBy('id', 'desc');
+            ->orderBy('id', 'desc');
     }
 
     protected static function boot()
@@ -120,9 +120,19 @@ class Product extends Base
         $this->attributes['first_name'] = strtolower($value);
     }
 
+    public function attr()
+    {
+        return $this->hasMany('App\Modules\Product\Models\Attribute', 'group_id', 'group_id')->orderBy('sort');
+    }
+
     public function attrValues()
     {
         return $this->hasMany('App\Modules\Product\Models\AttributeValue', 'product_id', 'proizvod_id');
+    }
+
+    public function attrProducts()
+    {
+        return $this->hasMany('App\Modules\Product\Models\ProductAttribute', 'product_id', 'proizvod_id')->orderBy('sort');
     }
 
 }

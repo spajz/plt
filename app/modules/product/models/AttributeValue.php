@@ -22,4 +22,9 @@ class AttributeValue extends Base
     {
         return $this->belongsTo('App\Modules\Product\Models\Attribute', 'attribute_id', 'id');
     }
+
+    public function scopeProductAttr($query, $id)
+    {
+        return $query->where('product_id', $id);
+    }
 }

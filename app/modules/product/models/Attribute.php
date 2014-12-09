@@ -25,6 +25,12 @@ class Attribute extends Base
         return $this->hasMany('App\Modules\Product\Models\AttributeValue', 'attribute_id', 'id');
     }
 
+    public function products()
+    {
+        return $this->hasMany('App\Modules\Product\Models\Product', 'group_id', 'group_id');
+    }
+
+
     public static function boot()
     {
         parent::boot();
